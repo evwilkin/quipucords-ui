@@ -28,10 +28,10 @@ import {
   UserIcon
 } from '@patternfly/react-icons';
 import {
-  global_Color_dark_100 as gray,
-  global_success_color_100 as green,
-  global_warning_color_100 as yellow,
-  global_danger_color_100 as red
+  global_text_color_regular as gray,
+  global_icon_color_status_success_default as green,
+  global_icon_color_status_warning_default as yellow,
+  global_icon_color_status_danger_default as red
 } from '@patternfly/react-tokens';
 
 /**

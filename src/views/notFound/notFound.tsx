@@ -13,8 +13,6 @@ import {
   EmptyState,
   EmptyStateBody,
   EmptyStateFooter,
-  EmptyStateHeader,
-  EmptyStateIcon,
   PageSection
 } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons';
@@ -25,12 +23,12 @@ const NotFound: React.FC = () => {
 
   return (
     <PageSection>
-      <EmptyState variant="full">
-        <EmptyStateHeader
-          titleText={t('view.empty-state_title_not-found')}
-          icon={<EmptyStateIcon icon={ExclamationTriangleIcon} />}
-          headingLevel="h1"
-        />
+      <EmptyState
+        variant="full"
+        titleText={t('view.empty-state_title_not-found')}
+        icon={ExclamationTriangleIcon}
+        headingLevel="h1"
+      >
         <EmptyStateBody>{t('view.empty-state_description_not-found')}</EmptyStateBody>
         <EmptyStateFooter>
           <Button onClick={() => navigate('/')}>{t('view.label_not-found_home')}</Button>

@@ -14,6 +14,7 @@ import {
   Masthead,
   MastheadBrand,
   MastheadContent,
+  MastheadLogo,
   MastheadMain,
   MastheadToggle,
   Nav,
@@ -45,7 +46,9 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       </MastheadToggle>
       <MastheadMain>
         <MastheadBrand>
-          <Brand src={logo} alt="Quipucords Logo" heights={{ default: '36px' }} />
+          <MastheadLogo component="a">
+            <Brand src={logo} alt="Quipucords Logo" heights={{ default: '36px' }} />
+          </MastheadLogo>
         </MastheadBrand>
       </MastheadMain>
       <MastheadContent>
@@ -75,7 +78,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
 
   // FixMe: PF spelling bug in attr "forwardScrollAriaLabel"
   const Navigation = (
-    <Nav id="nav-primary-simple" theme="dark">
+    <Nav id="nav-primary-simple">
       <NavList id="nav-list-simple" forwardScrollAriaLabel="Scroll forward">
         {routes.map(
           (route, idx) => route.label && (!route.routes ? renderNavItem(route, idx) : renderNavGroup(route, idx))
@@ -85,7 +88,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   );
 
   const Sidebar = (
-    <PageSidebar theme="dark">
+    <PageSidebar>
       <PageSidebarBody>{Navigation}</PageSidebarBody>
     </PageSidebar>
   );
@@ -108,7 +111,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   );
 
   return (
-    <Page mainContainerId={pageId} header={Header} sidebar={sidebarOpen && Sidebar} skipToContent={PageSkipToContent}>
+    <Page mainContainerId={pageId} masthead={Header} sidebar={sidebarOpen && Sidebar} skipToContent={PageSkipToContent}>
       {children}
     </Page>
   );

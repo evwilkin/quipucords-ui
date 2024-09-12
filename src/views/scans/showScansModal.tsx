@@ -4,14 +4,22 @@ import {
   Bullseye,
   Button,
   EmptyState,
-  EmptyStateHeader,
-  EmptyStateIcon,
   Modal,
   ModalVariant,
   Spinner
 } from '@patternfly/react-core';
 import { DownloadIcon } from '@patternfly/react-icons';
-import { Table, Thead, Tr, Th, Tbody, Td, type ThProps } from '@patternfly/react-table';
+import {
+	Thead,
+	Tr,
+	Th,
+	Tbody,
+	Td,
+	type ThProps
+} from '@patternfly/react-table';
+import {
+	Table
+} from '@patternfly/react-table/deprecated';
 import { helpers } from '../../helpers';
 import { type Scan, type ScanJobType } from '../../types/types';
 
@@ -140,9 +148,7 @@ const ShowScansModal: React.FC<ShowScansModalProps> = ({
         </React.Fragment>
       )) || (
         <Bullseye>
-          <EmptyState>
-            <EmptyStateHeader titleText="Loading scans" headingLevel="h2" icon={<EmptyStateIcon icon={Spinner} />} />
-          </EmptyState>
+          <EmptyState titleText="Loading scans" headingLevel="h2" icon={Spinner} />
         </Bullseye>
       )}
     </Modal>

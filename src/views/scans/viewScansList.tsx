@@ -26,11 +26,11 @@ import {
   EmptyStateActions,
   EmptyStateBody,
   EmptyStateFooter,
-  EmptyStateHeader,
-  EmptyStateIcon,
   List,
   ListItem,
   Modal,
+  ModalBody,
+  ModalFooter,
   ModalVariant,
   PageSection,
   ToolbarContent,
@@ -125,7 +125,7 @@ const ScansListView: React.FunctionComponent = () => {
   const renderToolbar = () => (
     <Toolbar>
       <ToolbarContent>
-        <FilterToolbar id="client-paginated-example-filters" />
+        {/* <FilterToolbar id="client-paginated-example-filters" /> */}
         <ToolbarItem>
           <Button
             variant={ButtonVariant.secondary}
@@ -175,7 +175,7 @@ const ScansListView: React.FunctionComponent = () => {
   );
 
   return (
-    <PageSection variant="light">
+    <PageSection>
       {renderToolbar()}
       <Table aria-label="Example things table" variant="compact">
         <Thead>
@@ -190,12 +190,11 @@ const ScansListView: React.FunctionComponent = () => {
           isLoading={isLoading}
           isNoData={currentPageItems.length === 0}
           noDataEmptyState={
-            <EmptyState>
-              <EmptyStateHeader
-                headingLevel="h4"
-                titleText="No scans available"
-                icon={<EmptyStateIcon icon={PlusCircleIcon} />}
-              />
+            <EmptyState
+              headingLevel="h4"
+              titleText="No scans available"
+              icon={PlusCircleIcon}
+            >
               <EmptyStateBody>
                 Create a scan from the Sources page by selecting an individual source or multiple sources.
               </EmptyStateBody>
@@ -256,7 +255,13 @@ const ScansListView: React.FunctionComponent = () => {
         title={t('view.label', { context: 'sources' })}
         isOpen={scanSelectedForSources !== undefined}
         onClose={() => setScanSelectedForSources(undefined)}
-        actions={[
+      >
+        <ModalBody>
+          <List isPlain isBordered>
+            {scanSelectedForSources?.sources.map(s => <ListItem key={s.id}>{s.name}</ListItem>)}
+          </List>
+        </ModalBody>
+        <ModalFooter>
           <Button
             key="confirm"
             variant="danger"
@@ -265,15 +270,11 @@ const ScansListView: React.FunctionComponent = () => {
             }}
           >
             {t('table.label', { context: 'close' })}
-          </Button>,
+          </Button>
           <Button key="cancel" variant="link" onClick={() => setScanSelectedForSources(undefined)}>
             {t('form-dialog.label', { context: 'cancel' })}
           </Button>
-        ]}
-      >
-        <List isPlain isBordered>
-          {scanSelectedForSources?.sources.map(s => <ListItem key={s.id}>{s.name}</ListItem>)}
-        </List>
+        </ModalFooter>
       </Modal>
       <ShowScansModal
         scan={scanSelected}
@@ -290,7 +291,14 @@ const ScansListView: React.FunctionComponent = () => {
         title={t('form-dialog.confirmation', { context: 'title_delete-source' })}
         isOpen={pendingDeleteScan !== undefined}
         onClose={() => setPendingDeleteScan(undefined)}
-        actions={[
+      >
+        <ModalBody>
+          {t('form-dialog.confirmation_heading', {
+            context: 'delete-source',
+            name: pendingDeleteScan?.name
+          })}
+        </ModalBody>
+        <ModalFooter>
           <Button
             key="confirm"
             variant="danger"
@@ -304,16 +312,11 @@ const ScansListView: React.FunctionComponent = () => {
             }}
           >
             {t('table.label', { context: 'delete' })}
-          </Button>,
+          </Button>
           <Button key="cancel" variant="link" onClick={() => setPendingDeleteScan(undefined)}>
             {t('form-dialog.label', { context: 'cancel' })}
           </Button>
-        ]}
-      >
-        {t('form-dialog.confirmation_heading', {
-          context: 'delete-source',
-          name: pendingDeleteScan?.name
-        })}
+        </ModalFooter>
         {/* TODO: his modal should go on a list of getting it's own component * check PR #381 for details */}
       </Modal>
       <AlertGroup isToast isLiveRegion>

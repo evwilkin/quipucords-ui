@@ -5,7 +5,7 @@
  *
  * @module appToolbar
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Dropdown,
   DropdownItem,
@@ -16,19 +16,27 @@ import {
   Toolbar,
   ToolbarContent,
   ToolbarGroup,
-  ToolbarItem
-} from '@patternfly/react-core';
-import { EllipsisVIcon, MoonIcon, QuestionCircleIcon, SunIcon } from '@patternfly/react-icons';
-import { useLogoutApi, useUserApi } from '../../hooks/useLoginApi';
-import '@patternfly/react-styles/css/components/Avatar/avatar.css';
-import './viewLayoutToolbar.css';
+  ToolbarItem,
+} from "@patternfly/react-core";
+import {
+  EllipsisVIcon,
+  MoonIcon,
+  QuestionCircleIcon,
+  SunIcon,
+} from "@patternfly/react-icons";
+import { useLogoutApi, useUserApi } from "../../hooks/useLoginApi";
+import "@patternfly/react-styles/css/components/Avatar/avatar.css";
+import "./viewLayoutToolbar.css";
 
 interface AppToolbarProps {
   useLogout?: typeof useLogoutApi;
   useUser?: typeof useUserApi;
 }
 
-const AppToolbar: React.FC<AppToolbarProps> = ({ useLogout = useLogoutApi, useUser = useUserApi }) => {
+const AppToolbar: React.FC<AppToolbarProps> = ({
+  useLogout = useLogoutApi,
+  useUser = useUserApi,
+}) => {
   const { logout: onLogout } = useLogout();
   const { getUser } = useUser();
   const [userName, setUserName] = useState<string>();
@@ -36,21 +44,22 @@ const AppToolbar: React.FC<AppToolbarProps> = ({ useLogout = useLogoutApi, useUs
   const [userDropdownOpen, setUserDropdownOpen] = useState<boolean>(false);
   const [kebabDropdownOpen, setKebabDropdownOpen] = useState<boolean>(false);
   const [isDarkTheme, setIsDarkTheme] = useState(
-    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+    window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches,
   );
 
   useEffect(() => {
-    getUser().then(username => setUserName(username));
+    getUser().then((username) => setUserName(username));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const applyTheme = isDark => {
-    const htmlElement = document.getElementsByTagName('html')[0];
+  const applyTheme = (isDark) => {
+    const htmlElement = document.getElementsByTagName("html")[0];
     if (htmlElement) {
       if (isDark) {
-        htmlElement.classList.add('pf-v5-theme-dark');
+        htmlElement.classList.add("pf-v5-theme-dark");
       } else {
-        htmlElement.classList.remove('pf-v5-theme-dark');
+        htmlElement.classList.remove("pf-v5-theme-dark");
       }
     }
   };
@@ -60,17 +69,17 @@ const AppToolbar: React.FC<AppToolbarProps> = ({ useLogout = useLogoutApi, useUs
 
   const onHelpSelect = (
     _event: React.MouseEvent<Element, MouseEvent> | undefined,
-    value: string | number | undefined
+    value: string | number | undefined,
   ) => {
-    console.log('selected', value);
+    console.log("selected", value);
     setHelpOpen(false);
   };
 
   const onUserDropdownSelect = (
     _event: React.MouseEvent<Element, MouseEvent> | undefined,
-    value: string | number | undefined
+    value: string | number | undefined,
   ) => {
-    console.log('selected', value);
+    console.log("selected", value);
     setUserDropdownOpen(false);
   };
 
@@ -78,11 +87,14 @@ const AppToolbar: React.FC<AppToolbarProps> = ({ useLogout = useLogoutApi, useUs
     <Toolbar id="toolbar" isFullHeight isStatic>
       <ToolbarContent>
         <ToolbarGroup
-          variant="icon-button-group"
-          align={{ default: 'alignRight' }}
-          spacer={{ default: 'spacerNone', md: 'spacerMd' }}
+          variant="action-group-plain"
+          align={{ default: "alignEnd" }}
+          gap={{ default: "gapNone", md: "gapMd" }}
         >
-          <ToolbarGroup variant="icon-button-group" visibility={{ default: 'hidden', lg: 'visible' }}>
+          <ToolbarGroup
+            variant="action-group-plain"
+            visibility={{ default: "hidden", lg: "visible" }}
+          >
             <ToolbarItem>
               <ToggleGroup aria-label="Dark theme toggle group">
                 <ToggleGroupItem
@@ -115,16 +127,16 @@ const AppToolbar: React.FC<AppToolbarProps> = ({ useLogout = useLogoutApi, useUs
             </ToolbarItem>
             <ToolbarItem>
               <Dropdown
-                popperProps={{ position: 'right' }}
+                popperProps={{ position: "right" }}
                 onSelect={onHelpSelect}
                 onOpenChange={(isOpen: boolean) => setHelpOpen(isOpen)}
                 isOpen={helpOpen}
-                toggle={toggleRef => (
+                toggle={(toggleRef) => (
                   <MenuToggle
                     aria-label="Toggle"
                     ref={toggleRef}
                     variant="plain"
-                    onClick={() => setHelpOpen(prev => !prev)}
+                    onClick={() => setHelpOpen((prev) => !prev)}
                     isExpanded={helpOpen}
                   >
                     <QuestionCircleIcon />
@@ -137,21 +149,21 @@ const AppToolbar: React.FC<AppToolbarProps> = ({ useLogout = useLogoutApi, useUs
               </Dropdown>
             </ToolbarItem>
           </ToolbarGroup>
-          <ToolbarItem visibility={{ default: 'visible', lg: 'hidden' }}>
+          <ToolbarItem visibility={{ default: "visible", lg: "hidden" }}>
             <Dropdown
               isPlain
-              popperProps={{ position: 'right' }}
+              popperProps={{ position: "right" }}
               onSelect={onUserDropdownSelect}
               onOpenChange={(isOpen: boolean) => setKebabDropdownOpen(isOpen)}
               isOpen={kebabDropdownOpen}
-              toggle={toggleRef => (
+              toggle={(toggleRef) => (
                 <MenuToggle
                   aria-label="Toggle"
                   ref={toggleRef}
                   variant="plain"
-                  onClick={() => setKebabDropdownOpen(prev => !prev)}
+                  onClick={() => setKebabDropdownOpen((prev) => !prev)}
                   isExpanded={kebabDropdownOpen}
-                  style={{ width: 'auto' }}
+                  style={{ width: "auto" }}
                 >
                   <EllipsisVIcon />
                 </MenuToggle>
@@ -164,18 +176,18 @@ const AppToolbar: React.FC<AppToolbarProps> = ({ useLogout = useLogoutApi, useUs
             </Dropdown>
           </ToolbarItem>
         </ToolbarGroup>
-        <ToolbarItem visibility={{ default: 'hidden', lg: 'visible' }}>
+        <ToolbarItem visibility={{ default: "hidden", lg: "visible" }}>
           <Dropdown
             onSelect={onUserDropdownSelect}
             onOpenChange={(isOpen: boolean) => setUserDropdownOpen(isOpen)}
             isOpen={userDropdownOpen}
             ouiaId="user_dropdown"
-            toggle={toggleRef => (
+            toggle={(toggleRef) => (
               <MenuToggle
                 aria-label="Toggle"
                 ref={toggleRef}
                 variant="plain"
-                onClick={() => setUserDropdownOpen(prev => !prev)}
+                onClick={() => setUserDropdownOpen((prev) => !prev)}
                 isExpanded={userDropdownOpen}
               >
                 <div className="quipucords-toolbar__user-dropdown">

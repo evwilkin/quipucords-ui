@@ -25,11 +25,11 @@ import {
   EmptyStateActions,
   EmptyStateBody,
   EmptyStateFooter,
-  EmptyStateHeader,
-  EmptyStateIcon,
   List,
   ListItem,
   Modal,
+  ModalBody,
+  ModalFooter,
   ModalVariant,
   PageSection,
   ToolbarContent,
@@ -199,7 +199,7 @@ const CredentialsListView: React.FunctionComponent = () => {
   const renderToolbar = () => (
     <Toolbar>
       <ToolbarContent>
-        <FilterToolbar id="client-paginated-example-filters" />
+        {/* <FilterToolbar id="client-paginated-example-filters" /> */}
         <ToolbarItem> {renderAddCredsButton()}</ToolbarItem>
         <ToolbarItem>
           <Button
@@ -221,7 +221,7 @@ const CredentialsListView: React.FunctionComponent = () => {
   );
 
   return (
-    <PageSection variant="light">
+    <PageSection>
       {renderToolbar()}
       <Table aria-label="Example things table">
         <Thead>
@@ -238,12 +238,11 @@ const CredentialsListView: React.FunctionComponent = () => {
           isLoading={isLoading}
           isNoData={currentPageItems.length === 0}
           noDataEmptyState={
-            <EmptyState>
-              <EmptyStateHeader
-                headingLevel="h4"
-                titleText="No available credential"
-                icon={<EmptyStateIcon icon={PlusCircleIcon} />}
-              />
+            <EmptyState
+              headingLevel="h4"
+              titleText="No available credential"
+              icon={PlusCircleIcon}
+            >
               <EmptyStateBody>
                 A credential contains authentication information needed to scan a source.A credential includes a
                 username and a password or SSH key. The quipucords tool uses SSH to connect to servers on the network
@@ -294,8 +293,16 @@ const CredentialsListView: React.FunctionComponent = () => {
         title={t('form-dialog.label', { context: 'sources' })}
         isOpen={sourcesSelected.length > 0}
         onClose={() => setSourcesSelected([])}
-        actions={[
-          <Button
+      >
+        <ModalBody>
+          <List isPlain isBordered>
+            {sourcesSelected.map(c => (
+              <ListItem key={c.name}>{c.name}</ListItem>
+            ))}
+          </List>
+        </ModalBody>
+        <ModalFooter>
+        <Button
             key="confirm"
             variant="danger"
             onClick={() => {
@@ -303,17 +310,11 @@ const CredentialsListView: React.FunctionComponent = () => {
             }}
           >
             {t('table.label', { context: 'close' })}
-          </Button>,
+          </Button>
           <Button key="cancel" variant="link" onClick={() => setSourcesSelected([])}>
             {t('form-dialog.label', { context: 'cancel' })}
           </Button>
-        ]}
-      >
-        <List isPlain isBordered>
-          {sourcesSelected.map(c => (
-            <ListItem key={c.name}>{c.name}</ListItem>
-          ))}
-        </List>
+        </ModalFooter>
         {/* TODO: his modal should go on a list of getting it's own component * check PR #381 for details */}
       </Modal>
       <Modal
@@ -321,8 +322,15 @@ const CredentialsListView: React.FunctionComponent = () => {
         title={t('form-dialog.confirmation', { context: 'title_delete-credential' })}
         isOpen={pendingDeleteCredential !== undefined}
         onClose={() => setPendingDeleteCredential(undefined)}
-        actions={[
-          <Button
+      >
+        <ModalBody>
+          {t('form-dialog.confirmation_heading', {
+            context: 'delete-credential',
+            name: pendingDeleteCredential?.name
+          })}
+        </ModalBody>
+        <ModalFooter>
+        <Button
             key="confirm"
             variant="danger"
             onClick={() => {
@@ -335,16 +343,11 @@ const CredentialsListView: React.FunctionComponent = () => {
             }}
           >
             {t('table.label', { context: 'delete' })}
-          </Button>,
+          </Button>
           <Button key="cancel" variant="link" onClick={() => setPendingDeleteCredential(undefined)}>
             {t('form-dialog.label', { context: 'cancel' })}
           </Button>
-        ]}
-      >
-        {t('form-dialog.confirmation_heading', {
-          context: 'delete-credential',
-          name: pendingDeleteCredential?.name
-        })}
+        </ModalFooter>
       </Modal>
       <AddCredentialModal
         isOpen={addCredentialModal !== undefined}

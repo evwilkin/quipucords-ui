@@ -6,16 +6,16 @@
  */
 import React, { useEffect, useRef, useState } from 'react';
 import {
+	SelectList,
+	MenuToggle,
+	type MenuToggleElement,
   Select,
   SelectOption,
-  SelectList,
   type SelectOptionProps,
-  MenuToggle,
-  type MenuToggleElement,
-  TextInputGroup,
-  TextInputGroupMain,
-  TextInputGroupUtilities,
-  Button
+	TextInputGroup,
+	TextInputGroupMain,
+	TextInputGroupUtilities,
+	Button
 } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons/';
 

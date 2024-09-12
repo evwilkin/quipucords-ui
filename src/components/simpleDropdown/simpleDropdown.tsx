@@ -9,10 +9,10 @@ import React, { useState } from 'react';
 import {
   Dropdown,
   DropdownItem,
-  DropdownList,
-  MenuToggle,
-  type MenuToggleElement,
-  type MenuToggleProps
+	DropdownList,
+	MenuToggle,
+	type MenuToggleElement,
+	type MenuToggleProps
 } from '@patternfly/react-core';
 
 interface SimpleDropdownProps {

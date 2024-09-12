@@ -6,7 +6,13 @@
  * @module actionMenu
  */
 import React, { useState } from 'react';
-import { Dropdown, DropdownItem, DropdownList, MenuToggle, type MenuToggleElement } from '@patternfly/react-core';
+import {
+  Dropdown,
+  DropdownItem,
+	DropdownList,
+	MenuToggle,
+	type MenuToggleElement
+} from '@patternfly/react-core';
 import { EllipsisVIcon } from '@patternfly/react-icons';
 
 interface ActionMenuProps<T = unknown> {

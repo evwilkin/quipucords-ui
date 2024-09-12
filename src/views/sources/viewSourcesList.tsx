@@ -25,11 +25,11 @@ import {
   EmptyStateActions,
   EmptyStateBody,
   EmptyStateFooter,
-  EmptyStateHeader,
-  EmptyStateIcon,
   List,
   ListItem,
   Modal,
+  ModalBody,
+  ModalFooter,
   ModalVariant,
   PageSection,
   ToolbarContent,
@@ -256,7 +256,7 @@ const SourcesListView: React.FunctionComponent = () => {
   const renderToolbar = () => (
     <Toolbar>
       <ToolbarContent>
-        <FilterToolbar id="client-paginated-example-filters" />
+        {/* <FilterToolbar id="client-paginated-example-filters" /> */}
         <ToolbarItem>{renderAddSourceButton()}</ToolbarItem>
         <ToolbarItem>
           <Button
@@ -312,7 +312,7 @@ const SourcesListView: React.FunctionComponent = () => {
   };
 
   return (
-    <PageSection variant="light">
+    <PageSection>
       {renderToolbar()}
       <Table aria-label="Example things table" variant="compact">
         <Thead>
@@ -329,12 +329,7 @@ const SourcesListView: React.FunctionComponent = () => {
           isLoading={isLoading}
           isNoData={currentPageItems.length === 0}
           noDataEmptyState={
-            <EmptyState>
-              <EmptyStateHeader
-                headingLevel="h4"
-                titleText="No sources available"
-                icon={<EmptyStateIcon icon={PlusCircleIcon} />}
-              />
+            <EmptyState titleText="No sources available" headingLevel="h4" icon={PlusCircleIcon}>
               <EmptyStateBody>
                 Begin by adding a source. A source contains a collection of network information, including systems
                 management solution information, IP addresses, or host names, in addition to SSH ports and credentials.
@@ -394,7 +389,16 @@ const SourcesListView: React.FunctionComponent = () => {
         title={t('view.label', { context: 'credentials' })}
         isOpen={credentialsSelected.length > 0}
         onClose={() => setCredentialsSelected([])}
-        actions={[
+      >
+        <ModalBody>
+          <List isPlain isBordered>
+            {credentialsSelected.map(c => (
+              <ListItem key={c.name}>{c.name}</ListItem>
+            ))}
+          </List>
+        </ModalBody>
+        {/* TODO: his modal should go on a list of getting it's own component * check PR #381 for details */}
+        <ModalFooter>
           <Button
             key="confirm"
             variant="danger"
@@ -404,18 +408,11 @@ const SourcesListView: React.FunctionComponent = () => {
             }}
           >
             {t('table.label', { context: 'close' })}
-          </Button>,
+          </Button>
           <Button key="cancel" variant="link" onClick={() => setCredentialsSelected([])}>
             {t('form-dialog.label', { context: 'cancel' })}
           </Button>
-        ]}
-      >
-        <List isPlain isBordered>
-          {credentialsSelected.map(c => (
-            <ListItem key={c.name}>{c.name}</ListItem>
-          ))}
-        </List>
-        {/* TODO: his modal should go on a list of getting it's own component * check PR #381 for details */}
+        </ModalFooter>
       </Modal>
       <ShowConnectionsModal
         isOpen={connectionsSelected !== undefined}
@@ -428,7 +425,14 @@ const SourcesListView: React.FunctionComponent = () => {
         title={t('form-dialog.confirmation', { context: 'title_delete-source' })}
         isOpen={pendingDeleteSource !== undefined}
         onClose={() => setPendingDeleteSource(undefined)}
-        actions={[
+      >
+        <ModalBody>
+          {t('form-dialog.confirmation_heading', {
+            context: 'delete-source',
+            name: pendingDeleteSource?.name
+          })}
+        </ModalBody>
+        <ModalFooter>
           <Button
             key="confirm"
             variant="danger"
@@ -446,12 +450,7 @@ const SourcesListView: React.FunctionComponent = () => {
           <Button key="cancel" variant="link" onClick={() => setPendingDeleteSource(undefined)}>
             {t('form-dialog.label', { context: 'cancel' })}
           </Button>
-        ]}
-      >
-        {t('form-dialog.confirmation_heading', {
-          context: 'delete-source',
-          name: pendingDeleteSource?.name
-        })}
+        </ModalFooter>
       </Modal>
       {/* TODO: Simplify add/edit sources functionality * check PR #380 for details */}
       <AddSourceModal
