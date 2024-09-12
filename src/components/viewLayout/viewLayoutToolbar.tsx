@@ -57,9 +57,9 @@ const AppToolbar: React.FC<AppToolbarProps> = ({
     const htmlElement = document.getElementsByTagName("html")[0];
     if (htmlElement) {
       if (isDark) {
-        htmlElement.classList.add("pf-v5-theme-dark");
+        htmlElement.classList.add("pf-v6-theme-dark");
       } else {
-        htmlElement.classList.remove("pf-v5-theme-dark");
+        htmlElement.classList.remove("pf-v6-theme-dark");
       }
     }
   };
@@ -191,7 +191,7 @@ const AppToolbar: React.FC<AppToolbarProps> = ({
                 isExpanded={userDropdownOpen}
               >
                 <div className="quipucords-toolbar__user-dropdown">
-                  <span className="pf-v5-c-avatar" />
+                  <span className="pf-v6-c-avatar" />
                   {userName}
                 </div>
               </MenuToggle>

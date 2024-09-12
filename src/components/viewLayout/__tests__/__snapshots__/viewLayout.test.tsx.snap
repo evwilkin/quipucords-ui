@@ -5,7 +5,13 @@ exports[`ViewLayout should render a basic component: basic 1`] = `
   defaultManagedSidebarIsOpen={true}
   getBreakpoint={[Function]}
   getVerticalBreakpoint={[Function]}
-  header={
+  isBreadcrumbWidthLimited={false}
+  isManagedSidebar={false}
+  isNotificationDrawerExpanded={false}
+  mainComponent="main"
+  mainContainerId="primary-app-container"
+  mainTabIndex={-1}
+  masthead={
     <Masthead>
       <MastheadToggle>
         <Button
@@ -18,15 +24,19 @@ exports[`ViewLayout should render a basic component: basic 1`] = `
       </MastheadToggle>
       <MastheadMain>
         <MastheadBrand>
-          <Brand
-            alt="Quipucords Logo"
-            heights={
-              {
-                "default": "36px",
+          <MastheadLogo
+            component="a"
+          >
+            <Brand
+              alt="Quipucords Logo"
+              heights={
+                {
+                  "default": "36px",
+                }
               }
-            }
-            src="title.svg"
-          />
+              src="title.svg"
+            />
+          </MastheadLogo>
         </MastheadBrand>
       </MastheadMain>
       <MastheadContent>
@@ -34,28 +44,17 @@ exports[`ViewLayout should render a basic component: basic 1`] = `
       </MastheadContent>
     </Masthead>
   }
-  isBreadcrumbWidthLimited={false}
-  isManagedSidebar={false}
-  isNotificationDrawerExpanded={false}
-  mainComponent="main"
-  mainContainerId="primary-app-container"
-  mainTabIndex={-1}
   onNotificationDrawerExpand={[Function]}
   sidebar={
-    <PageSidebar
-      theme="dark"
-    >
+    <PageSidebar>
       <PageSidebarBody>
         <Nav
           id="nav-primary-simple"
           onSelect={[Function]}
           onToggle={[Function]}
           ouiaSafe={true}
-          theme="dark"
         >
           <NavList
-            ariaLeftScroll="Scroll left"
-            ariaRightScroll="Scroll right"
             backScrollAriaLabel="Scroll back"
             forwardScrollAriaLabel="Scroll forward"
             id="nav-list-simple"
