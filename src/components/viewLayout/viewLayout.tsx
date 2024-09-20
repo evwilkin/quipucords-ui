@@ -12,10 +12,10 @@ import {
   Brand,
   Button,
   Masthead,
-  MastheadBrand,
+  MastheadLogo,
   MastheadContent,
   MastheadMain,
-  MastheadToggle,
+  MastheadToggle, MastheadBrand,
   Nav,
   NavExpandable,
   NavItem,
@@ -38,15 +38,13 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = React.useState(true);
   const Header = (
     <Masthead>
-      <MastheadToggle>
-        <Button variant="plain" onClick={() => setSidebarOpen(!sidebarOpen)} aria-label="Global navigation">
-          <BarsIcon />
-        </Button>
+      
+      <MastheadMain><MastheadToggle>
+        <Button icon={<BarsIcon />} variant="plain" onClick={() => setSidebarOpen(!sidebarOpen)} aria-label="Global navigation" />
       </MastheadToggle>
-      <MastheadMain>
-        <MastheadBrand>
+        <MastheadBrand data-codemods><MastheadLogo data-codemods>
           <Brand src={logo} alt="Quipucords Logo" heights={{ default: '36px' }} />
-        </MastheadBrand>
+        </MastheadLogo></MastheadBrand>
       </MastheadMain>
       <MastheadContent>
         <AppToolbar />
@@ -75,7 +73,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
 
   // FixMe: PF spelling bug in attr "forwardScrollAriaLabel"
   const Navigation = (
-    <Nav id="nav-primary-simple" theme="dark">
+    <Nav id="nav-primary-simple" >
       <NavList id="nav-list-simple" forwardScrollAriaLabel="Scroll forward">
         {routes.map(
           (route, idx) => route.label && (!route.routes ? renderNavItem(route, idx) : renderNavGroup(route, idx))
@@ -85,7 +83,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   );
 
   const Sidebar = (
-    <PageSidebar theme="dark">
+    <PageSidebar >
       <PageSidebarBody>{Navigation}</PageSidebarBody>
     </PageSidebar>
   );
@@ -108,7 +106,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   );
 
   return (
-    <Page mainContainerId={pageId} header={Header} sidebar={sidebarOpen && Sidebar} skipToContent={PageSkipToContent}>
+    <Page mainContainerId={pageId} masthead={Header} sidebar={sidebarOpen && Sidebar} skipToContent={PageSkipToContent}>
       {children}
     </Page>
   );

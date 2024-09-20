@@ -5,16 +5,18 @@
  */
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  ActionGroup,
-  Button,
-  Form,
-  FormGroup,
-  FormHelperText,
-  Modal,
-  ModalVariant,
-  TextArea,
-  TextInput
+	ActionGroup,
+	Button,
+	Form,
+	FormGroup,
+	FormHelperText,
+	TextArea,
+	TextInput
 } from '@patternfly/react-core';
+import {
+	Modal,
+	ModalVariant
+} from '@patternfly/react-core/deprecated';
 import { SimpleDropdown } from '../../components/simpleDropdown/simpleDropdown';
 import { type CredentialType } from '../../types/types';
 
