@@ -6,16 +6,17 @@
  *
  * @module appLayout
  */
-import * as React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import * as React from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   Brand,
   Button,
   Masthead,
-  MastheadBrand,
+  MastheadLogo,
   MastheadContent,
   MastheadMain,
   MastheadToggle,
+  MastheadBrand,
   Nav,
   NavExpandable,
   NavItem,
@@ -23,12 +24,12 @@ import {
   Page,
   PageSidebar,
   PageSidebarBody,
-  SkipToContent
-} from '@patternfly/react-core';
-import { BarsIcon } from '@patternfly/react-icons';
-import logo from '../../images/title.svg';
-import { IAppRoute, IAppRouteGroup, routes } from '../../routes';
-import { AppToolbar } from './viewLayoutToolbar';
+  SkipToContent,
+} from "@patternfly/react-core";
+import { BarsIcon } from "@patternfly/react-icons";
+import logo from "../../images/title.svg";
+import { IAppRoute, IAppRouteGroup, routes } from "../../routes";
+import { AppToolbar } from "./viewLayoutToolbar";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -38,14 +39,23 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = React.useState(true);
   const Header = (
     <Masthead>
-      <MastheadToggle>
-        <Button variant="plain" onClick={() => setSidebarOpen(!sidebarOpen)} aria-label="Global navigation">
-          <BarsIcon />
-        </Button>
-      </MastheadToggle>
       <MastheadMain>
-        <MastheadBrand>
-          <Brand src={logo} alt="Quipucords Logo" heights={{ default: '36px' }} />
+        <MastheadToggle>
+          <Button
+            icon={<BarsIcon />}
+            variant="plain"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            aria-label="Global navigation"
+          />
+        </MastheadToggle>
+        <MastheadBrand data-codemods>
+          <MastheadLogo data-codemods>
+            <Brand
+              src={logo}
+              alt="Quipucords Logo"
+              heights={{ default: "36px" }}
+            />
+          </MastheadLogo>
         </MastheadBrand>
       </MastheadMain>
       <MastheadContent>
@@ -57,7 +67,11 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const location = useLocation();
 
   const renderNavItem = (route: IAppRoute, index: number) => (
-    <NavItem key={`${route.label}-${index}`} id={`${route.label}-${index}`} isActive={route.path === location.pathname}>
+    <NavItem
+      key={`${route.label}-${index}`}
+      id={`${route.label}-${index}`}
+      isActive={route.path === location.pathname}
+    >
       <NavLink to={route.path}>{route.label}</NavLink>
     </NavItem>
   );
@@ -67,34 +81,40 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       key={`${group.label}-${groupIndex}`}
       id={`${group.label}-${groupIndex}`}
       title={group.label}
-      isActive={group.routes.some(route => route.path === location.pathname)}
+      isActive={group.routes.some((route) => route.path === location.pathname)}
     >
-      {group.routes.map((route, idx) => route.label && renderNavItem(route, idx))}
+      {group.routes.map(
+        (route, idx) => route.label && renderNavItem(route, idx),
+      )}
     </NavExpandable>
   );
 
   // FixMe: PF spelling bug in attr "forwardScrollAriaLabel"
   const Navigation = (
-    <Nav id="nav-primary-simple" theme="dark">
+    <Nav id="nav-primary-simple">
       <NavList id="nav-list-simple" forwardScrollAriaLabel="Scroll forward">
         {routes.map(
-          (route, idx) => route.label && (!route.routes ? renderNavItem(route, idx) : renderNavGroup(route, idx))
+          (route, idx) =>
+            route.label &&
+            (!route.routes
+              ? renderNavItem(route, idx)
+              : renderNavGroup(route, idx)),
         )}
       </NavList>
     </Nav>
   );
 
   const Sidebar = (
-    <PageSidebar theme="dark">
+    <PageSidebar>
       <PageSidebarBody>{Navigation}</PageSidebarBody>
     </PageSidebar>
   );
 
-  const pageId = 'primary-app-container';
+  const pageId = "primary-app-container";
 
   const PageSkipToContent = (
     <SkipToContent
-      onClick={event => {
+      onClick={(event) => {
         event.preventDefault();
         const primaryContentContainer = document.getElementById(pageId);
         if (primaryContentContainer) {
@@ -108,7 +128,12 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   );
 
   return (
-    <Page mainContainerId={pageId} header={Header} sidebar={sidebarOpen && Sidebar} skipToContent={PageSkipToContent}>
+    <Page
+      mainContainerId={pageId}
+      masthead={Header}
+      sidebar={sidebarOpen && Sidebar}
+      skipToContent={PageSkipToContent}
+    >
       {children}
     </Page>
   );

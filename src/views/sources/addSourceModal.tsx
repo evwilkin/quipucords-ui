@@ -8,18 +8,20 @@
  */
 import React, { useEffect, useState } from 'react';
 import {
-  ActionGroup,
-  Button,
-  Checkbox,
-  Form,
-  FormContextProvider,
-  FormGroup,
-  HelperText,
-  Modal,
-  ModalVariant,
-  TextArea,
-  TextInput
+	ActionGroup,
+	Button,
+	Checkbox,
+	Form,
+	FormContextProvider,
+	FormGroup,
+	HelperText,
+	TextArea,
+	TextInput
 } from '@patternfly/react-core';
+import {
+	Modal,
+	ModalVariant
+} from '@patternfly/react-core/deprecated';
 import { SimpleDropdown } from '../../components/simpleDropdown/simpleDropdown';
 import { TypeaheadCheckboxes } from '../../components/typeAheadCheckboxes/typeaheadCheckboxes';
 import { helpers } from '../../helpers';
