@@ -207,29 +207,15 @@ const ScansListView: React.FunctionComponent = () => {
   );
 
   const renderConnection = (scan: Scan) => (
-    <button
-      type="button"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "8px",
-        cursor: scan.most_recent ? "pointer" : "default",
-        background: "none",
-        border: "none",
-        padding: 0,
-        font: "inherit",
-        color: "inherit",
-        textAlign: "left",
-      }}
+    <Button
+      variant={ButtonVariant.link}
+      isDisabled={!scan.most_recent}
       onClick={() => {
-        if (scan.most_recent) {
-          setScanSelected(scan);
-          getScanJobs(scan.id).then((res) => {
-            setScanJobs(res?.data.results);
-          });
-        }
+        setScanSelected(scan);
+        getScanJobs(scan.id).then((res) => {
+          setScanJobs(res?.data.results);
+        });
       }}
-      disabled={!scan.most_recent}
     >
       <ContextIcon
         symbol={
@@ -237,26 +223,20 @@ const ScansListView: React.FunctionComponent = () => {
             ? ContextIconVariant[scan.most_recent.status]
             : ContextIconVariant["off"]
         }
-      />
-      <span>
-        {scan.most_recent ? (
-          <React.Fragment>
-            {scan.most_recent.status === "failed" &&
-              t("table.label", { context: "status_failed_scans" })}
-            {scan.most_recent.status === "completed" &&
-              t("table.label", { context: "status_completed_scans" })}
-            {scan.most_recent.status !== "failed" &&
-              scan.most_recent.status !== "completed" &&
-              t("table.label", { context: "status_scans" })}{" "}
-            {helpers.getTimeDisplayHowLongAgo(
-              scan.most_recent.end_time || scan.most_recent.start_time,
-            )}
-          </React.Fragment>
-        ) : (
-          t("table.label", { context: "status_scans" })
-        )}
-      </span>
-    </button>
+      />{" "}
+      {scan.most_recent && (
+        <React.Fragment>
+          {scan.most_recent.status === "failed" &&
+            t("table.label", { context: "status_failed_scans" })}
+          {scan.most_recent.status === "completed" &&
+            t("table.label", { context: "status_completed_scans" })}{" "}
+          {helpers.getTimeDisplayHowLongAgo(
+            scan.most_recent.end_time || scan.most_recent.start_time,
+          )}
+        </React.Fragment>
+      )}
+      {!scan.most_recent && t("table.label", { context: "status_scans" })}
+    </Button>
   );
 
   return (
