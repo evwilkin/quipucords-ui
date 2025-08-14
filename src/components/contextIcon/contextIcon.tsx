@@ -29,10 +29,10 @@ import {
   UserIcon
 } from '@patternfly/react-icons';
 import {
-  global_Color_dark_100 as gray,
-  global_success_color_100 as green,
-  global_warning_color_100 as yellow,
-  global_danger_color_100 as red
+  t_temp_dev_tbd as gray /* CODEMODS: you should update this color token, original v5 token was global_Color_dark_100 */,
+  t_temp_dev_tbd as green /* CODEMODS: you should update this color token, original v5 token was global_success_color_100 */,
+  t_temp_dev_tbd as yellow /* CODEMODS: you should update this color token, original v5 token was global_warning_color_100 */,
+  t_temp_dev_tbd as red /* CODEMODS: you should update this color token, original v5 token was global_danger_color_100 */
 } from '@patternfly/react-tokens';
 
 /**
