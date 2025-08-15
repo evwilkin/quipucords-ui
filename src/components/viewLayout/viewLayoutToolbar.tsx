@@ -7,6 +7,7 @@
  */
 import React, { useEffect, useState } from "react";
 import {
+  Avatar,
   Dropdown,
   DropdownItem,
   Icon,
@@ -26,8 +27,8 @@ import {
 } from "@patternfly/react-icons";
 import { useLogoutApi, useUserApi } from "../../hooks/useLoginApi";
 import "@patternfly/react-styles/css/components/Avatar/avatar.css";
-import "./viewLayoutToolbar.css";
 import AboutModal from "../aboutModal/aboutModal";
+import avatarImage from '../../images/imgAvatar.svg';
 
 interface AppToolbarProps {
   useLogout?: typeof useLogoutApi;
@@ -87,7 +88,7 @@ const AppToolbar: React.FC<AppToolbarProps> = ({
 
   return (
     <React.Fragment>
-      <Toolbar id="toolbar" isFullHeight isStatic>
+      <Toolbar id="toolbar" isStatic>
         <ToolbarContent>
           <ToolbarGroup
             variant="action-group-plain"
@@ -193,15 +194,13 @@ const AppToolbar: React.FC<AppToolbarProps> = ({
                 <MenuToggle
                   aria-label="Toggle"
                   ref={toggleRef}
+                  icon={<Avatar alt="User avatar" src={avatarImage} size="sm" />}
                   variant="plain"
                   onClick={() => setUserDropdownOpen((prev) => !prev)}
                   isExpanded={userDropdownOpen}
                   data-ouia-component-id="user_dropdown_button"
                 >
-                  <div className="quipucords-toolbar__user-dropdown">
-                    <span className="pf-v5-c-avatar" />
-                    {userName}
-                  </div>
+                  {userName}
                 </MenuToggle>
               )}
             >

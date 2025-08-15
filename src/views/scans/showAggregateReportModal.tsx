@@ -94,7 +94,7 @@ const ShowAggregateReportModal: React.FC<ShowAggregateReportModalProps> = ({
       onClose={() => onClose()}
       {...(actions && { actions })}
     >
-      <Title className="pf-v5-u-mb-lg" headingLevel="h2" size="md">
+      <Title className="pf-v6-u-mb-lg" headingLevel="h2" size="md">
         {t('modal.subtitle', { context: 'scan-id', value: report?.id })}
       </Title>
       <DescriptionList isHorizontal isFluid isCompact>

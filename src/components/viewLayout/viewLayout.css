@@ -1,0 +1,7 @@
+.pf-v6-c-brand.pf-m-picture img {
+  filter: invert(1);
+}
+
+.pf-v6-theme-dark .pf-v6-c-brand.pf-m-picture img {
+  filter: revert;
+}
