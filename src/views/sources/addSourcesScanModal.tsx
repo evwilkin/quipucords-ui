@@ -6,21 +6,18 @@
  */
 import React, { useState } from 'react';
 import {
-	ActionGroup,
-	Button,
-	Checkbox,
-	Form,
-	FormContextProvider,
-	FormGroup,
-	HelperText,
-	NumberInput,
-	TextArea,
-	TextInput
+  ActionGroup,
+  Button,
+  Checkbox,
+  Form,
+  FormContextProvider,
+  FormGroup,
+  HelperText,
+  NumberInput,
+  TextArea,
+  TextInput
 } from '@patternfly/react-core';
-import {
-	Modal,
-	ModalVariant
-} from '@patternfly/react-core/deprecated';
+import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
 import { helpers } from '../../helpers';
 import { type Scan, type SourceType } from '../../types/types';
 

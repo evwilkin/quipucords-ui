@@ -6,9 +6,9 @@
  *
  * @module scansListView
  */
-import * as React from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import * as React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import {
   Alert,
   AlertActionCloseButton,
@@ -26,51 +26,40 @@ import {
   ToolbarContent,
   ToolbarItem,
   Tooltip,
-  getUniqueId,
-} from "@patternfly/react-core";
-import { Modal, ModalVariant } from "@patternfly/react-core/deprecated";
-import { PlusCircleIcon } from "@patternfly/react-icons";
-import ActionMenu from "../../components/actionMenu/actionMenu";
-import {
-  ContextIcon,
-  ContextIconVariant,
-} from "../../components/contextIcon/contextIcon";
-import { ErrorMessage } from "../../components/errorMessage/errorMessage";
-import { RefreshTimeButton } from "../../components/refreshTimeButton/refreshTimeButton";
-import {
-  API_QUERY_TYPES,
-  API_SCANS_LIST_QUERY,
-} from "../../constants/apiConstants";
-import { helpers } from "../../helpers";
-import { useAlerts } from "../../hooks/useAlerts";
+  getUniqueId
+} from '@patternfly/react-core';
+import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
+import { PlusCircleIcon } from '@patternfly/react-icons';
+import ActionMenu from '../../components/actionMenu/actionMenu';
+import { ContextIcon, ContextIconVariant } from '../../components/contextIcon/contextIcon';
+import { ErrorMessage } from '../../components/errorMessage/errorMessage';
+import { RefreshTimeButton } from '../../components/refreshTimeButton/refreshTimeButton';
+import { API_QUERY_TYPES, API_SCANS_LIST_QUERY } from '../../constants/apiConstants';
+import { helpers } from '../../helpers';
+import { useAlerts } from '../../hooks/useAlerts';
 import {
   useDeleteScanApi,
   useDownloadReportApi,
   useGetAggregateReportApi,
   useGetScanJobsApi,
-  useRunScanApi,
-} from "../../hooks/useScanApi";
-import useQueryClientConfig from "../../queryClientConfig";
-import {
-  type ReportsAggregateResponse,
-  type Scan,
-  type ScanJobType,
-} from "../../types/types";
+  useRunScanApi
+} from '../../hooks/useScanApi';
+import useQueryClientConfig from '../../queryClientConfig';
+import { type ReportsAggregateResponse, type Scan, type ScanJobType } from '../../types/types';
 import {
   ConditionalTableBody,
   FilterType,
   useTablePropHelpers,
-  useTableState,
-} from "../../vendor/react-table-batteries";
-import { ShowAggregateReportModal } from "./showAggregateReportModal";
-import { ShowScansModal } from "./showScansModal";
-import { useScansQuery } from "./useScansQuery";
+  useTableState
+} from '../../vendor/react-table-batteries';
+import { ShowAggregateReportModal } from './showAggregateReportModal';
+import { ShowScansModal } from './showScansModal';
+import { useScansQuery } from './useScansQuery';
 
 const ScansListView: React.FunctionComponent = () => {
   const { t } = useTranslation();
   const [refreshTime, setRefreshTime] = React.useState<Date | null>();
-  const [scanSelectedForSources, setScanSelectedForSources] =
-    React.useState<Scan>();
+  const [scanSelectedForSources, setScanSelectedForSources] = React.useState<Scan>();
   const [scanSelected, setScanSelected] = React.useState<Scan>();
   const [scanJobs, setScanJobs] = React.useState<ScanJobType[]>();
   const [pendingDeleteScan, setPendingDeleteScan] = React.useState<Scan>();
@@ -100,74 +89,63 @@ const ScansListView: React.FunctionComponent = () => {
    * Utilizes `useTableState` for setup.
    */
   const tableState = useTableState({
-    persistTo: "urlParams",
+    persistTo: 'urlParams',
     columnNames: {
-      name: t("table.header", { context: "name" }),
-      most_recent: t("table.header", { context: "last-scanned" }),
-      sources: t("table.header", { context: "sources" }),
-      actions: " ",
+      name: t('table.header', { context: 'name' }),
+      most_recent: t('table.header', { context: 'last-scanned' }),
+      sources: t('table.header', { context: 'sources' }),
+      actions: ' '
     },
     filter: {
       isEnabled: true,
       filterCategories: [
         {
           key: API_QUERY_TYPES.SEARCH_NAME,
-          title: t("toolbar.label", { context: "option_name" }),
+          title: t('toolbar.label', { context: 'option_name' }),
           type: FilterType.search,
-          placeholderText: t("toolbar.label", {
-            context: "placeholder_filter_search_by_name",
-          }),
+          placeholderText: t('toolbar.label', {
+            context: 'placeholder_filter_search_by_name'
+          })
         },
         {
           key: API_QUERY_TYPES.SEARCH_SOURCES_NAME,
-          title: t("toolbar.label", {
-            context: "option_search_sources_by_name",
+          title: t('toolbar.label', {
+            context: 'option_search_sources_by_name'
           }),
           type: FilterType.search,
-          placeholderText: t("toolbar.label", {
-            context: "placeholder_filter_search_sources_by_name",
-          }),
-        },
-      ],
+          placeholderText: t('toolbar.label', {
+            context: 'placeholder_filter_search_sources_by_name'
+          })
+        }
+      ]
     },
     sort: {
       isEnabled: true,
-      sortableColumns: ["name", "most_recent"],
-      initialSort: { columnKey: "name", direction: "asc" },
+      sortableColumns: ['name', 'most_recent'],
+      initialSort: { columnKey: 'name', direction: 'asc' }
     },
     pagination: { isEnabled: true },
-    selection: { isEnabled: true },
+    selection: { isEnabled: true }
   });
 
   const { isError, isLoading, data } = useScansQuery({
     tableState,
-    setRefreshTime,
+    setRefreshTime
   });
 
   const tableBatteries = useTablePropHelpers({
     ...tableState,
-    idProperty: "id",
+    idProperty: 'id',
     isLoading,
     currentPageItems: data?.results || [],
-    totalItemCount: helpers.normalizeTotal(data),
+    totalItemCount: helpers.normalizeTotal(data)
   });
 
   const {
     selection: { selectedItems, setSelectedItems },
     currentPageItems,
     numRenderedColumns,
-    components: {
-      Toolbar,
-      FilterToolbar,
-      PaginationToolbarItem,
-      Pagination,
-      Table,
-      Tbody,
-      Td,
-      Th,
-      Thead,
-      Tr,
-    },
+    components: { Toolbar, FilterToolbar, PaginationToolbarItem, Pagination, Table, Tbody, Td, Th, Thead, Tr }
   } = tableBatteries;
 
   const renderToolbar = () => (
@@ -186,21 +164,14 @@ const ScansListView: React.FunctionComponent = () => {
               })
             }
           >
-            {t("table.label", { context: "delete" })}
+            {t('table.label', { context: 'delete' })}
           </Button>
         </ToolbarItem>
         <ToolbarItem>
-          <RefreshTimeButton
-            lastRefresh={refreshTime?.getTime() ?? 0}
-            onRefresh={onRefresh}
-          />
+          <RefreshTimeButton lastRefresh={refreshTime?.getTime() ?? 0} onRefresh={onRefresh} />
         </ToolbarItem>
         <PaginationToolbarItem>
-          <Pagination
-            variant="top"
-            isCompact
-            widgetId="client-paginated-example-pagination"
-          />
+          <Pagination variant="top" isCompact widgetId="client-paginated-example-pagination" />
         </PaginationToolbarItem>
       </ToolbarContent>
     </Toolbar>
@@ -209,33 +180,26 @@ const ScansListView: React.FunctionComponent = () => {
   const renderConnection = (scan: Scan) => (
     <Button
       variant={ButtonVariant.link}
+      size="sm"
       isDisabled={!scan.most_recent}
       onClick={() => {
         setScanSelected(scan);
-        getScanJobs(scan.id).then((res) => {
+        getScanJobs(scan.id).then(res => {
           setScanJobs(res?.data.results);
         });
       }}
     >
       <ContextIcon
-        symbol={
-          scan.most_recent
-            ? ContextIconVariant[scan.most_recent.status]
-            : ContextIconVariant["off"]
-        }
-      />{" "}
+        symbol={scan.most_recent ? ContextIconVariant[scan.most_recent.status] : ContextIconVariant['off']}
+      />{' '}
       {scan.most_recent && (
         <React.Fragment>
-          {scan.most_recent.status === "failed" &&
-            t("table.label", { context: "status_failed_scans" })}
-          {scan.most_recent.status === "completed" &&
-            t("table.label", { context: "status_completed_scans" })}{" "}
-          {helpers.getTimeDisplayHowLongAgo(
-            scan.most_recent.end_time || scan.most_recent.start_time,
-          )}
+          {scan.most_recent.status === 'failed' && t('table.label', { context: 'status_failed_scans' })}
+          {scan.most_recent.status === 'completed' && t('table.label', { context: 'status_completed_scans' })}{' '}
+          {helpers.getTimeDisplayHowLongAgo(scan.most_recent.end_time || scan.most_recent.start_time)}
         </React.Fragment>
       )}
-      {!scan.most_recent && t("table.label", { context: "status_scans" })}
+      {!scan.most_recent && t('table.label', { context: 'status_scans' })}
     </Button>
   );
 
@@ -255,21 +219,17 @@ const ScansListView: React.FunctionComponent = () => {
           isError={isError}
           isLoading={isLoading}
           isNoData={currentPageItems.length === 0}
-          errorEmptyState={
-            <ErrorMessage title={t("view.error_title", { context: "scans" })} />
-          }
+          errorEmptyState={<ErrorMessage title={t('view.error_title', { context: 'scans' })} />}
           noDataEmptyState={
             <EmptyState
               headingLevel="h4"
               icon={PlusCircleIcon}
-              titleText={t("view.empty-state", { context: "scans_title" })}
+              titleText={t('view.empty-state', { context: 'scans_title' })}
             >
-              <EmptyStateBody>
-                {t("view.empty-state", { context: "scans_description" })}
-              </EmptyStateBody>
+              <EmptyStateBody>{t('view.empty-state', { context: 'scans_description' })}</EmptyStateBody>
               <EmptyStateFooter>
                 <EmptyStateActions>
-                  <Button onClick={() => nav("/sources")} variant="primary">
+                  <Button onClick={() => nav('/sources')} variant="primary">
                     View Sources page
                   </Button>
                 </EmptyStateActions>
@@ -282,10 +242,13 @@ const ScansListView: React.FunctionComponent = () => {
             {currentPageItems?.map((scan: Scan, rowIndex) => (
               <Tr key={scan.id} item={scan} rowIndex={rowIndex}>
                 <Td columnKey="name">{scan.name}</Td>
-                <Td columnKey="most_recent">{renderConnection(scan)}</Td>
-                <Td columnKey="sources">
+                <Td hasAction columnKey="most_recent">
+                  {renderConnection(scan)}
+                </Td>
+                <Td hasAction columnKey="sources">
                   <Button
                     variant={ButtonVariant.link}
+                    size="sm"
                     onClick={() => {
                       setScanSelectedForSources(scan);
                     }}
@@ -294,58 +257,55 @@ const ScansListView: React.FunctionComponent = () => {
                   </Button>
                 </Td>
                 <Td isActionCell columnKey="actions">
-                  <Tooltip content={t("table.tooltip_action_menu")}>
+                  <Tooltip content={t('table.tooltip_action_menu')}>
                     <ActionMenu<Scan>
-                      popperProps={{ position: "right" }}
+                      popperProps={{ position: 'right' }}
                       item={scan}
+                      size="sm"
                       actions={[
                         {
-                          label: t("table.label", { context: "summary" }),
-                          disabled: !helpers.canAccessMostRecentReport(
-                            scan?.most_recent,
-                          ),
+                          label: t('table.label', { context: 'summary' }),
+                          disabled: !helpers.canAccessMostRecentReport(scan?.most_recent),
                           onClick: () => {
                             if (scan?.most_recent) {
                               getAggregateReport(scan.most_recent.report_id)
                                 .then(setAggregateReport)
-                                .catch((err) => {
+                                .catch(err => {
                                   if (!helpers.TEST_MODE) {
                                     console.error(err);
                                   }
                                 });
                             }
                           },
-                          ouiaId: "summary",
+                          ouiaId: 'summary'
                         },
                         {
-                          label: t("table.label", { context: "delete" }),
+                          label: t('table.label', { context: 'delete' }),
                           onClick: setPendingDeleteScan,
-                          ouiaId: "delete",
+                          ouiaId: 'delete'
                         },
                         {
-                          label: t("table.label", { context: "rescan" }),
+                          label: t('table.label', { context: 'rescan' }),
                           onClick: () => {
                             runScans(scan, true).finally(() => {
                               queryClient.invalidateQueries({
-                                queryKey: [API_SCANS_LIST_QUERY],
+                                queryKey: [API_SCANS_LIST_QUERY]
                               });
                               setScanSelected(undefined);
                             });
                           },
-                          ouiaId: "rescan",
+                          ouiaId: 'rescan'
                         },
                         {
-                          label: t("table.label", { context: "download" }),
-                          disabled: !helpers.canAccessMostRecentReport(
-                            scan?.most_recent,
-                          ),
+                          label: t('table.label', { context: 'download' }),
+                          disabled: !helpers.canAccessMostRecentReport(scan?.most_recent),
                           onClick: () => {
                             if (scan?.most_recent) {
                               downloadReport(scan.most_recent.report_id);
                             }
                           },
-                          ouiaId: "download",
-                        },
+                          ouiaId: 'download'
+                        }
                       ]}
                     />
                   </Tooltip>
@@ -355,13 +315,10 @@ const ScansListView: React.FunctionComponent = () => {
           </Tbody>
         </ConditionalTableBody>
       </Table>
-      <Pagination
-        variant="bottom"
-        widgetId="server-paginated-example-pagination"
-      />
+      <Pagination variant="bottom" widgetId="server-paginated-example-pagination" />
       <Modal
         variant={ModalVariant.small}
-        title={t("view.label", { context: "sources" })}
+        title={t('view.label', { context: 'sources' })}
         isOpen={scanSelectedForSources !== undefined}
         onClose={() => setScanSelectedForSources(undefined)}
         actions={[
@@ -372,14 +329,14 @@ const ScansListView: React.FunctionComponent = () => {
               setScanSelectedForSources(undefined);
             }}
           >
-            {t("table.label", { context: "close" })}
-          </Button>,
+            {t('table.label', { context: 'close' })}
+          </Button>
         ]}
       >
         <List isPlain isBordered>
           {scanSelectedForSources?.sources
             .sort((a, b) => a.name.localeCompare(b.name))
-            .map((s) => <ListItem key={s.id}>{s.name}</ListItem>)}
+            .map(s => <ListItem key={s.id}>{s.name}</ListItem>)}
         </List>
       </Modal>
       <ShowScansModal
@@ -400,8 +357,8 @@ const ScansListView: React.FunctionComponent = () => {
               setScanJobs(undefined);
             }}
           >
-            {t("table.label", { context: "close" })}
-          </Button>,
+            {t('table.label', { context: 'close' })}
+          </Button>
         ]}
       />
       <ShowAggregateReportModal
@@ -418,13 +375,13 @@ const ScansListView: React.FunctionComponent = () => {
               setAggregateReport(undefined); // Close the modal when this is clicked
             }}
           >
-            {t("table.label", { context: "close" })}
-          </Button>,
+            {t('table.label', { context: 'close' })}
+          </Button>
         ]}
       />
       <Modal
         variant={ModalVariant.small}
-        title={t("form-dialog.confirmation", { context: "title_delete-scan" })}
+        title={t('form-dialog.confirmation', { context: 'title_delete-scan' })}
         isOpen={pendingDeleteScan !== undefined}
         onClose={() => setPendingDeleteScan(undefined)}
         actions={[
@@ -440,20 +397,16 @@ const ScansListView: React.FunctionComponent = () => {
               }
             }}
           >
-            {t("table.label", { context: "delete" })}
+            {t('table.label', { context: 'delete' })}
           </Button>,
-          <Button
-            key="cancel"
-            variant="link"
-            onClick={() => setPendingDeleteScan(undefined)}
-          >
-            {t("form-dialog.label", { context: "cancel" })}
-          </Button>,
+          <Button key="cancel" variant="link" onClick={() => setPendingDeleteScan(undefined)}>
+            {t('form-dialog.label', { context: 'cancel' })}
+          </Button>
         ]}
       >
-        {t("form-dialog.confirmation_heading", {
-          context: "delete-scan",
-          name: pendingDeleteScan?.name,
+        {t('form-dialog.confirmation_heading', {
+          context: 'delete-scan',
+          name: pendingDeleteScan?.name
         })}
         {/* TODO: his modal should go on a list of getting it's own component * check PR #381 for details */}
       </Modal>
@@ -462,7 +415,7 @@ const ScansListView: React.FunctionComponent = () => {
           <Alert
             timeout={8000}
             onTimeout={() => id && removeAlert(id)}
-            variant={AlertVariant[variant || "info"]}
+            variant={AlertVariant[variant || 'info']}
             title={title}
             actionClose={
               <AlertActionCloseButton

@@ -12,9 +12,15 @@ interface ErrorMessageProps {
 const ErrorMessage: React.FC<ErrorMessageProps> = ({ description, title }) => {
   const { t } = useTranslation();
   return (
-    <EmptyState titleText={<Title headingLevel="h2" size="lg">
-        {title || t('view.error', { context: 'title', appName: helpers.UI_NAME })}
-      </Title>} icon={ExclamationCircleIcon} variant={EmptyStateVariant.full}>
+    <EmptyState
+      titleText={
+        <Title headingLevel="h2" size="lg">
+          {title || t('view.error', { context: 'title', appName: helpers.UI_NAME })}
+        </Title>
+      }
+      icon={ExclamationCircleIcon}
+      variant={EmptyStateVariant.full}
+    >
       <EmptyStateBody>{description || t('view.error', { context: 'description' })}</EmptyStateBody>
     </EmptyState>
   );

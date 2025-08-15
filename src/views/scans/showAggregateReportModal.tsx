@@ -1,16 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-	DescriptionList,
-	DescriptionListTerm,
-	DescriptionListDescription,
-	DescriptionListGroup,
-	Title
+  DescriptionList,
+  DescriptionListTerm,
+  DescriptionListDescription,
+  DescriptionListGroup,
+  Title
 } from '@patternfly/react-core';
-import {
-	Modal,
-	ModalVariant
-} from '@patternfly/react-core/deprecated';
+import { Modal, ModalVariant } from '@patternfly/react-core/deprecated';
 import { helpers } from '../../helpers';
 import { type ReportAggregateDiagnosticsType, type ReportAggregateResultsType } from '../../types/types';
 

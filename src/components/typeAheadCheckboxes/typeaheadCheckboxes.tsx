@@ -197,7 +197,8 @@ const TypeaheadCheckboxes: React.FC<TypeaheadCheckboxesProps> = ({
         />
         <TextInputGroupUtilities>
           {selected.length > 0 && (
-            <Button icon={<TimesIcon aria-hidden />}
+            <Button
+              icon={<TimesIcon aria-hidden />}
               variant="plain"
               onClick={() => {
                 setInputValue('');
@@ -207,7 +208,7 @@ const TypeaheadCheckboxes: React.FC<TypeaheadCheckboxesProps> = ({
               }}
               aria-label="Clear input value"
               ouiaId="credentials_list_clear_button"
-             />
+            />
           )}
         </TextInputGroupUtilities>
       </TextInputGroup>

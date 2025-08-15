@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AboutModal as PfAboutModal, Content,  } from '@patternfly/react-core';
+import { AboutModal as PfAboutModal, Content } from '@patternfly/react-core';
 import { detect } from 'detect-browser';
 import moment from 'moment/moment';
 import { helpers } from '../../helpers';

@@ -11,21 +11,21 @@ import { useTranslation } from 'react-i18next';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   Brand,
-  Button,
   Masthead,
   MastheadLogo,
   MastheadContent,
   MastheadMain,
-  MastheadToggle, MastheadBrand,
+  MastheadToggle,
+  MastheadBrand,
   Nav,
   NavItem,
   NavList,
   Page,
   PageSidebar,
   PageSidebarBody,
+  PageToggleButton,
   SkipToContent
 } from '@patternfly/react-core';
-import { BarsIcon } from '@patternfly/react-icons';
 import { helpers } from '../../helpers';
 import { IAppRoute, routes } from '../../routes';
 import { AppToolbar } from './viewLayoutToolbar';
@@ -47,20 +47,22 @@ const AppLayout: React.FC<AppLayoutProps> = ({
 
   const Header = (
     <Masthead>
-      
-      <MastheadMain><MastheadToggle>
-        <Button icon={<BarsIcon />}
-          variant="plain"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          aria-label="Global navigation"
-          ouiaId="global-navigation"
-         />
-      </MastheadToggle>
-        <MastheadBrand data-codemods><MastheadLogo data-codemods>
-          <Brand alt={t('view.alt-logo', { name: uiName })} heights={{ default: '36px' }}>
-            <source srcSet={titleImg} />
-          </Brand>
-        </MastheadLogo></MastheadBrand>
+      <MastheadMain>
+        <MastheadToggle>
+          <PageToggleButton
+            isHamburgerButton
+            aria-label="Global navigation"
+            ouiaId="global-navigation"
+            onSidebarToggle={() => setSidebarOpen(!sidebarOpen)}
+          />
+        </MastheadToggle>
+        <MastheadBrand data-codemods>
+          <MastheadLogo data-codemods>
+            <Brand alt={t('view.alt-logo', { name: uiName })} heights={{ default: '36px' }}>
+              <source srcSet={titleImg} />
+            </Brand>
+          </MastheadLogo>
+        </MastheadBrand>
       </MastheadMain>
       <MastheadContent>
         <AppToolbar />
@@ -78,7 +80,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({
 
   // FixMe: PF spelling bug in attr "forwardScrollAriaLabel"
   const Navigation = (
-    <Nav id="nav-primary-simple" >
+    <Nav id="nav-primary-simple">
       <NavList id="nav-list-simple" forwardScrollAriaLabel="Scroll forward">
         {routes.map((route, idx) => route.label && renderNavItem(route, idx))}
       </NavList>
@@ -86,7 +88,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({
   );
 
   const Sidebar = (
-    <PageSidebar >
+    <PageSidebar>
       <PageSidebarBody>{Navigation}</PageSidebarBody>
     </PageSidebar>
   );
