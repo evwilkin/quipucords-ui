@@ -79,7 +79,7 @@ const AppToolbar: React.FC<AppToolbarProps> = ({ useLogout = useLogoutApi, useUs
 
   return (
     <React.Fragment>
-      <Toolbar id="toolbar" isStatic>
+      <Toolbar id="toolbar" isFullHeight isStatic>
         <ToolbarContent>
           <ToolbarGroup
             variant="action-group-plain"
@@ -171,6 +171,7 @@ const AppToolbar: React.FC<AppToolbarProps> = ({ useLogout = useLogoutApi, useUs
           </ToolbarGroup>
           <ToolbarItem visibility={{ default: 'hidden', lg: 'visible' }}>
             <Dropdown
+              popperProps={{ position: 'right' }}
               onSelect={onUserDropdownSelect}
               onOpenChange={(isOpen: boolean) => setUserDropdownOpen(isOpen)}
               isOpen={userDropdownOpen}
@@ -179,7 +180,6 @@ const AppToolbar: React.FC<AppToolbarProps> = ({ useLogout = useLogoutApi, useUs
                   aria-label="Toggle"
                   ref={toggleRef}
                   icon={<Avatar alt="User avatar" src={avatarImage} size="sm" />}
-                  variant="plain"
                   onClick={() => setUserDropdownOpen(prev => !prev)}
                   isExpanded={userDropdownOpen}
                   data-ouia-component-id="user_dropdown_button"
