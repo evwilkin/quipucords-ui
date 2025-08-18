@@ -47,18 +47,18 @@ describe('ViewToolbar interactions', () => {
       render(<ViewToolbar {...props} />);
     });
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-    
+
     // Find the help button by looking for the QuestionCircleIcon
     const helpButton = screen.getByRole('button', { name: /Toggle/i });
     expect(helpButton).toBeInTheDocument();
     await user.click(helpButton);
-    
+
     // Wait for the dropdown to open and then click on the About item
     await waitFor(() => {
       expect(screen.getByText('About')).toBeInTheDocument();
     });
     await user.click(screen.getByText('About'));
-    
+
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Close Dialog' }));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -75,18 +75,18 @@ describe('ViewToolbar interactions', () => {
     await act(async () => {
       render(<ViewToolbar {...props} />);
     });
-    
+
     // Find the user dropdown button by looking for the user name
     const userButton = screen.getByRole('button', { name: /Dolor sit/i });
     expect(userButton).toBeInTheDocument();
     await user.click(userButton);
-    
+
     // Wait for the dropdown to open and then click on the Logout item
     await waitFor(() => {
       expect(screen.getByText('Logout')).toBeInTheDocument();
     });
     await user.click(screen.getByText('Logout'));
-    
+
     expect(mockLogout).toHaveBeenCalledTimes(1);
   });
 });

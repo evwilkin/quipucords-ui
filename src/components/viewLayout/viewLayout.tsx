@@ -29,7 +29,6 @@ import {
 import { helpers } from '../../helpers';
 import { IAppRoute, routes } from '../../routes';
 import { AppToolbar } from './viewLayoutToolbar';
-import './viewLayout.css';
 
 interface AppLayoutProps {
   children: React.ReactNode;
