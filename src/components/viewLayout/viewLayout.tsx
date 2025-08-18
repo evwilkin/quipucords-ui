@@ -56,8 +56,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({
             onSidebarToggle={() => setSidebarOpen(!sidebarOpen)}
           />
         </MastheadToggle>
-        <MastheadBrand data-codemods>
-          <MastheadLogo data-codemods>
+        <MastheadBrand>
+          <MastheadLogo>
             <Brand alt={t('view.alt-logo', { name: uiName })} heights={{ default: '36px' }}>
               <source srcSet={titleImg} />
             </Brand>
