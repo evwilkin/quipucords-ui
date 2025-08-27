@@ -277,7 +277,7 @@ const CredentialsListView: React.FunctionComponent = () => {
                 <Td columnKey="auth_type">{helpers.getAuthType(credential)}</Td>
                 <Td hasAction columnKey="sources">
                   <Button
-                    variant={ButtonVariant.link}
+                    variant={!credentialHasSources(credential) ? ButtonVariant.plain : ButtonVariant.link}
                     size="sm"
                     onClick={() => {
                       if (credential.sources && credential.sources.length > 0) {
